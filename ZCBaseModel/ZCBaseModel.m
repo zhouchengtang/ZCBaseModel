@@ -1,3 +1,4 @@
+
 //
 //  ZCBaseModel.m
 //  PrivateAccountBook
@@ -363,6 +364,9 @@
                 if ([[returnValue class] isSubclassOfClass:[ZCBaseModel class]]) {
                     returnValue = [(ZCBaseModel *)returnValue dictionaryWithModel];
                 }else if ([[returnValue class] isSubclassOfClass:[NSMutableArray class]] && [(NSMutableArray *)returnValue modelProperty]){
+                    returnValue = [(NSMutableArray *)returnValue dataArrayWithModelArray:returnValue];
+                }else if ([[returnValue class] isSubclassOfClass:[NSMutableArray class]] && (modelProperty.protocol && NSClassFromString(modelProperty.protocol))){
+                    [(NSMutableArray *)returnValue setModelProperty:modelProperty];
                     returnValue = [(NSMutableArray *)returnValue dataArrayWithModelArray:returnValue];
                 }
             }
