@@ -140,6 +140,9 @@
                         NSMutableArray * modelArray = [[NSMutableArray alloc] initWithCapacity:0];
                         ArgumentValue = [modelArray modelArrayWithDataArray:ArgumentValue modelProperty:modelProperty];
                     }
+                }else if ([ArgumentValue isKindOfClass:[NSNull class]])
+                {
+                    ArgumentValue = @"";
                 }
             }
             //如果返回值为BOOL等类型
