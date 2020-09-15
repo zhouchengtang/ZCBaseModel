@@ -184,6 +184,9 @@
                     ((void (*)(id, SEL, double))(void *) objc_msgSend)(self, setSel, numberArgumentValue.doubleValue);
                 }else if(!strcmp(ArgumentType, @encode(long double)) ){
                     ((void (*)(id, SEL, long double))(void *) objc_msgSend)(self, setSel, (long double)numberArgumentValue.doubleValue);
+                }else if(!strcmp(ArgumentType, @encode(SEL)))
+                {
+                    ((void (*)(id, SEL, SEL))(void *) objc_msgSend)(self, setSel, NSSelectorFromString(ArgumentValue));
                 }
                 continue;
             }
@@ -285,7 +288,7 @@
         objc_property_t property = propertys[i];
         const char * propertyName = property_getName(property);
         modelProperty.name = [NSString stringWithUTF8String:propertyName];
-        if (_modelDict && ![_modelDict objectForKey:modelProperty.name]) {
+        if (!self.isMutable && _modelDict && ![_modelDict objectForKey:modelProperty.name]) {
             continue;
         }
         
@@ -407,6 +410,10 @@
                 }else if(!strcmp(returnType, @encode(long double)) ){
                     double num = ((long double (*)(id, SEL))(void *) objc_msgSend)(self, getSel);
                     returnValue = @(num);
+                }else if(!strcmp(returnType, @encode(SEL)))
+                {
+                    SEL sel = ((SEL (*)(id, SEL))(void *) objc_msgSend)(self, getSel);
+                    returnValue = NSStringFromSelector(sel);
                 }
             }
             //设置key&value

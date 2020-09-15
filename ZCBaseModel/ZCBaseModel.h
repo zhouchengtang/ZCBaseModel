@@ -11,6 +11,8 @@
 
 @interface ZCBaseModel : NSObject
 
+@property(nonatomic, assign)BOOL isMutable;
+
 - (instancetype)initWithDictionary: (NSDictionary *)dictionary;
 
 - (instancetype)initWithJsonData: (NSData *)jsonData;
